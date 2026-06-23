@@ -30,9 +30,9 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release -o release
 
-      - name: Configure base href for project pages
-        # Served from https://<owner>.github.io/razgkelis-portfolio/
-        run: sed -i 's|<base href="/" />|<base href="/razgkelis-portfolio/" />|' release/wwwroot/index.html
+      # Served from the custom domain root (konstantinos.razgkelis.com), so the
+      # base href stays "/" as defined in index.html. The wwwroot/CNAME file is
+      # published automatically and pins the custom domain on each deploy.
 
       - name: SPA fallback for client-side routing
         run: cp release/wwwroot/index.html release/wwwroot/404.html
