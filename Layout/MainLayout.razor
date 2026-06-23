@@ -1,0 +1,48 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<NavMenu />
+
+<main @key="_routeKey" class="page-enter">
+    @Body
+</main>
+
+<Footer />
+
+@code {
+    private string _routeKey = "";
+
+    protected override void OnInitialized()
+    {
+        _routeKey = Nav.Uri;
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
+    private async void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        _routeKey = e.Location;
+        StateHasChanged();
+        await Task.Yield();
+        await SafeInvoke("portfolio.scrollTop");
+        await SafeInvoke("portfolio.observeReveals");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SafeInvoke("portfolio.initNav");
+        }
+        await SafeInvoke("portfolio.observeReveals");
+    }
+
+    private async Task SafeInvoke(string identifier)
+    {
+        try { await JS.InvokeVoidAsync(identifier); }
+        catch { /* JS not ready / prerender — ignore */ }
+    }
+
+    public void Dispose() => Nav.LocationChanged -= OnLocationChanged;
+}

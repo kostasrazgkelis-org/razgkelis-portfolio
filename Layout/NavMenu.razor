@@ -1,0 +1,43 @@
+@implements IDisposable
+@inject NavigationManager Nav
+
+<header class="nav">
+    <div class="container nav__inner">
+        <a class="nav__brand" href="" @onclick="Close">
+            <span class="monogram">KR</span>
+            <span>Razgkelis</span>
+        </a>
+
+        <nav class="nav__links @(_open ? "open" : "")">
+            <NavLink class="nav__link" href="" Match="NavLinkMatch.All" @onclick="Close">Home</NavLink>
+            <NavLink class="nav__link" href="about" @onclick="Close">About</NavLink>
+            <NavLink class="nav__link" href="experience" @onclick="Close">Experience</NavLink>
+            <NavLink class="nav__link" href="projects" @onclick="Close">Projects</NavLink>
+            <NavLink class="nav__link" href="skills" @onclick="Close">Skills</NavLink>
+            <NavLink class="nav__link" href="personal" @onclick="Close">Personal</NavLink>
+            <NavLink class="nav__link" href="contact" @onclick="Close">Contact</NavLink>
+            <a class="btn btn--primary nav__cta" href="@Site.CvPath" download @onclick="Close">Download CV</a>
+        </nav>
+
+        <button class="nav__burger @(_open ? "open" : "")" @onclick="Toggle"
+                aria-label="Toggle navigation" aria-expanded="@_open">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+@code {
+    private bool _open;
+
+    protected override void OnInitialized() => Nav.LocationChanged += OnLocationChanged;
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        if (_open) { _open = false; StateHasChanged(); }
+    }
+
+    private void Toggle() => _open = !_open;
+    private void Close() { if (_open) _open = false; }
+
+    public void Dispose() => Nav.LocationChanged -= OnLocationChanged;
+}

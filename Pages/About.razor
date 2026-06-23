@@ -1,0 +1,100 @@
+@page "/about"
+
+<PageTitle>About — Konstantinos A. Razgkelis</PageTitle>
+
+<!-- Intro -->
+<section class="section" style="padding-top:calc(var(--nav-h) + 4rem)">
+    <div class="container">
+        <SectionHeading Eyebrow="About me" Title="The engineer behind the work" />
+        <div class="grid grid-2" style="gap:3rem;align-items:start">
+            <div data-reveal>
+                <p class="lead">@PortfolioData.IntroLong</p>
+                <p style="margin-top:1rem">
+                    I care about the craft: clean data models, thoughtful APIs, code that's actually tested,
+                    and delivery pipelines that let a team move fast without breaking trust. Whether it's
+                    untangling a monolith or standing up a new mobile product, I like owning a problem end to end.
+                </p>
+            </div>
+            <div data-reveal data-reveal-delay="1">
+                <div class="card">
+                    <span class="eyebrow">Languages</span>
+                    <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.8rem">
+                        @foreach (var l in PortfolioData.Languages)
+                        {
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:.6rem">
+                                <span style="color:var(--white);font-weight:500">@l.Name</span>
+                                <span class="info-card__sub">@l.Level</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider" />
+
+<!-- Education -->
+<section class="section">
+    <div class="container">
+        <SectionHeading Eyebrow="Academia" Title="Education" />
+        <div class="grid grid-2">
+            @{ var ei = 0; }
+            @foreach (var e in PortfolioData.Education)
+            {
+                <article class="card info-card" data-reveal data-reveal-delay="@((ei++).ToString())">
+                    <span class="info-card__when">@e.Period</span>
+                    <h3>@e.Degree</h3>
+                    <span class="info-card__sub">@e.Institution</span>
+                    <span class="info-card__sub">@e.Detail</span>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<hr class="divider" />
+
+<!-- Certification + Publication -->
+<section class="section">
+    <div class="container">
+        <div class="grid grid-2" style="gap:2rem">
+            <div data-reveal>
+                <SectionHeading Eyebrow="Credentials" Title="Certification" />
+                <article class="card info-card">
+                    <span class="info-card__when">2023</span>
+                    <h3>ISTQB Foundation Level</h3>
+                    <span class="info-card__sub">International Software Testing Qualifications Board</span>
+                </article>
+            </div>
+            <div data-reveal data-reveal-delay="1">
+                <SectionHeading Eyebrow="Research" Title="Publication" />
+                <article class="card info-card pub-card">
+                    <span class="info-card__when">Springer LNCS · 2022</span>
+                    <p class="pub-card__cite">
+                        Razgkelis, K. <em>Private Record Linkage Using Services, Spark and Soundex.</em>
+                    </p>
+                    <a class="back-link" href="@Site.PublicationUrl" target="_blank" rel="noopener">
+                        Read the paper
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider" />
+
+<!-- Personal teaser -->
+<section class="section">
+    <div class="container contact-cta" data-reveal>
+        <span class="eyebrow" style="justify-content:center">Beyond code</span>
+        <h2 style="margin-top:1rem">There's a person behind the commits.</h2>
+        <p class="lead" style="margin:1rem auto 1.6rem;max-width:540px">
+            Volleyball, travel and time at sea shaped how I work as much as any framework did.
+        </p>
+        <a class="btn btn--ghost" href="personal">See the personal side</a>
+    </div>
+</section>

@@ -1,0 +1,132 @@
+@page "/"
+
+<PageTitle>Konstantinos A. Razgkelis — Senior Software Engineer</PageTitle>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+    <ParticleBackdrop />
+    <div class="container hero__inner">
+        <div class="hero__monogram" data-reveal>KR //</div>
+        <h1 data-reveal data-reveal-delay="1">
+            Konstantinos
+            <span class="surname">Razgkelis</span>
+        </h1>
+        <div class="hero__role" data-reveal data-reveal-delay="2">Senior Software Engineer</div>
+        <div data-reveal data-reveal-delay="3">
+            <TypedText Prefix="> building " Phrases="PortfolioData.TypedPhrases" />
+        </div>
+        <div class="hero__cta" data-reveal data-reveal-delay="4">
+            <a class="btn btn--primary" href="projects">View Projects</a>
+            <a class="btn btn--ghost" href="contact">Get in touch</a>
+        </div>
+    </div>
+    <div class="hero__scroll">
+        <span>Scroll</span>
+        <span class="line"></span>
+    </div>
+</section>
+
+<!-- ===================== STATS ===================== -->
+<section class="section--tight">
+    <div class="container">
+        <div class="stats">
+            @foreach (var s in PortfolioData.Stats)
+            {
+                <div data-reveal>
+                    <div class="stat__num">@s.Number</div>
+                    <div class="stat__label">@s.Label</div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ===================== INTRO ===================== -->
+<section class="section">
+    <div class="container">
+        <div class="grid grid-2" style="align-items:center">
+            <div data-reveal>
+                <span class="eyebrow">Who I am</span>
+                <h2 style="margin-top:1rem">Engineering across<br />the full stack.</h2>
+            </div>
+            <div data-reveal data-reveal-delay="1">
+                <p class="lead">@PortfolioData.IntroLong</p>
+                <a class="back-link" href="about" style="margin-top:.6rem">
+                    More about me
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== WHAT I DO ===================== -->
+<section class="section">
+    <div class="container">
+        <SectionHeading Eyebrow="What I do" Title="Four things I do well">
+            From the data model to the deployed app — here's where I spend my time.
+        </SectionHeading>
+        <div class="grid grid-auto">
+            @{ var fi = 0; }
+            @foreach (var f in PortfolioData.FocusAreas)
+            {
+                <article class="card focus-card" data-reveal data-reveal-delay="@(((fi++) % 4).ToString())">
+                    <span class="num">@f.Index</span>
+                    <h3 style="margin-top:.6rem">@f.Title</h3>
+                    <p>@f.Body</p>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FEATURED PROJECTS ===================== -->
+<section class="section">
+    <div class="container">
+        <SectionHeading Eyebrow="Selected work" Title="Featured projects">
+            A few highlights — see the full set on the projects page.
+        </SectionHeading>
+        <div class="grid grid-3">
+            @{ var pi = 1; }
+            @foreach (var p in PortfolioData.FeaturedProjects)
+            {
+                <ProjectCard Project="p" Index="@($"0{pi}")" Delay="@(((pi - 1) % 3).ToString())" />
+                pi++;
+            }
+        </div>
+        <div style="margin-top:2rem" data-reveal>
+            <a class="btn btn--ghost" href="projects">All projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== SKILLS SNAPSHOT ===================== -->
+<section class="section">
+    <div class="container">
+        <SectionHeading Eyebrow="Tech stack" Title="Tools I reach for" />
+        <div class="grid grid-auto">
+            @{ var si = 0; }
+            @foreach (var g in PortfolioData.SkillGroups.Take(4))
+            {
+                <SkillGroupCard Group="g" Delay="@(((si++) % 4).ToString())" />
+            }
+        </div>
+        <div style="margin-top:2rem" data-reveal>
+            <a class="btn btn--ghost" href="skills">Full skill set</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="section">
+    <div class="container contact-cta" data-reveal>
+        <span class="eyebrow" style="justify-content:center">Let's talk</span>
+        <h2 style="margin-top:1rem">Have something to build?</h2>
+        <p class="lead" style="margin:1rem auto 1.6rem;max-width:540px">
+            I'm always open to interesting backend, mobile and platform problems.
+        </p>
+        <a class="btn btn--primary" href="contact">Get in touch</a>
+    </div>
+</section>

@@ -1,0 +1,46 @@
+@page "/personal"
+
+<PageTitle>Personal — Konstantinos A. Razgkelis</PageTitle>
+
+<section class="section" style="padding-top:calc(var(--nav-h) + 4rem)">
+    <div class="container">
+        <SectionHeading Eyebrow="Beyond code" Title="The personal side">
+            The work matters, but so does everything around it. A few things that shaped how I think,
+            lead and stay steady under pressure.
+        </SectionHeading>
+
+        <div class="grid grid-3">
+            @{ var i = 0; }
+            @foreach (var f in PortfolioData.Personal)
+            {
+                <article class="card personal-card" data-reveal data-reveal-delay="@(((i++) % 3).ToString())">
+                    <div class="personal-card__icon">@f.Icon</div>
+                    <h3>@f.Title</h3>
+                    <p>@f.Body</p>
+                    <div class="badge-row">
+                        @foreach (var tag in f.Tags)
+                        {
+                            <TechBadge Text="@tag" />
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(f.Link))
+                    {
+                        <a class="back-link" style="margin-top:1rem" href="@f.Link" target="_blank" rel="noopener">
+                            @f.LinkLabel
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+                        </a>
+                    }
+                </article>
+            }
+        </div>
+
+        <div class="card" data-reveal style="margin-top:3rem">
+            <span class="eyebrow">In short</span>
+            <p class="lead" style="margin-top:1rem;max-width:70ch">
+                Years of volleyball taught me discipline, teamwork and composure. Travel keeps me curious and
+                adaptable. And earning my skipper certification is where leadership and calm under pressure meet —
+                the same traits I bring to every team and every release.
+            </p>
+        </div>
+    </div>
+</section>

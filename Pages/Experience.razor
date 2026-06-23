@@ -1,0 +1,49 @@
+@page "/experience"
+
+<PageTitle>Experience — Konstantinos A. Razgkelis</PageTitle>
+
+<section class="section" style="padding-top:calc(var(--nav-h) + 4rem)">
+    <div class="container">
+        <SectionHeading Eyebrow="Career" Title="Experience">
+            I've spent @PortfolioData.ExperiencePhrase at @Site.Company, spanning backend, mobile, frontend,
+            test automation and AI — here's the journey, project by project.
+        </SectionHeading>
+
+        <!-- Role header -->
+        <div class="card" data-reveal style="margin-bottom:3rem">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;align-items:baseline">
+                <div>
+                    <h3 style="color:var(--white)">@PortfolioData.Experience.Title</h3>
+                    <div class="project-card__tag">@PortfolioData.Experience.Org · @Site.Location</div>
+                </div>
+                <span class="tl-item__meta">@PortfolioData.Experience.Period</span>
+            </div>
+            <p style="margin-top:.6rem;max-width:70ch">@PortfolioData.Experience.Summary</p>
+        </div>
+
+        <!-- Project milestones -->
+        <div class="timeline">
+            @{ var i = 1; }
+            @foreach (var p in PortfolioData.Projects)
+            {
+                <div class="tl-item" data-reveal>
+                    <div class="tl-item__meta">Milestone @($"{i:00}") · @p.TeamSize</div>
+                    <h3>@p.Title</h3>
+                    <div class="tl-item__role">@p.Role</div>
+                    <p style="max-width:68ch">@p.Problem</p>
+                    <div class="badge-row" style="margin:.6rem 0 1rem">
+                        @foreach (var t in p.TechStack)
+                        {
+                            <TechBadge Text="@t" />
+                        }
+                    </div>
+                    <a class="back-link" href="projects/@p.Slug">
+                        Read the case study
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                </div>
+                i++;
+            }
+        </div>
+    </div>
+</section>

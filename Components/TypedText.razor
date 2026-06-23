@@ -1,0 +1,74 @@
+@implements IDisposable
+@using System.Timers
+
+<span class="hero__typed">
+    <span class="prefix">@Prefix</span>@_visible<span class="cursor">_</span>
+</span>
+
+@code {
+    [Parameter] public string[] Phrases { get; set; } = Array.Empty<string>();
+    [Parameter] public string Prefix { get; set; } = "";
+
+    private string _visible = "";
+    private int _phrase, _char;
+    private bool _deleting;
+    private Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        if (Phrases.Length == 0) return;
+        _timer = new Timer(80) { AutoReset = true };
+        _timer.Elapsed += Tick;
+        _timer.Start();
+    }
+
+    private void Tick(object? _, ElapsedEventArgs __)
+    {
+        var current = Phrases[_phrase];
+
+        if (!_deleting)
+        {
+            _char++;
+            if (_char >= current.Length)
+            {
+                _deleting = true;
+                Reschedule(1400); // pause fully typed
+            }
+        }
+        else
+        {
+            _char--;
+            if (_char <= 0)
+            {
+                _deleting = false;
+                _phrase = (_phrase + 1) % Phrases.Length;
+                Reschedule(220); // pause before next word
+            }
+        }
+
+        _visible = current.Substring(0, Math.Clamp(_char, 0, current.Length));
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void Reschedule(double ms)
+    {
+        if (_timer is null) return;
+        _timer.Interval = ms;
+        // restore the regular cadence after this single longer interval
+        void Restore(object? s, ElapsedEventArgs e)
+        {
+            _timer!.Interval = _deleting ? 45 : 80;
+            _timer.Elapsed -= Restore;
+        }
+        _timer.Elapsed += Restore;
+    }
+
+    public void Dispose()
+    {
+        if (_timer is not null)
+        {
+            _timer.Stop();
+            _timer.Dispose();
+        }
+    }
+}

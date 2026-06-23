@@ -1,0 +1,17 @@
+<div class="section-head" data-reveal>
+    @if (!string.IsNullOrEmpty(Eyebrow))
+    {
+        <span class="eyebrow">@Eyebrow</span>
+    }
+    <h2>@Title</h2>
+    @if (ChildContent is not null)
+    {
+        <p class="lead" style="margin-top:1rem">@ChildContent</p>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Eyebrow { get; set; }
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,18 @@
+<article class="card skill-card" data-reveal data-reveal-delay="@Delay">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem">
+        <h3>@Group.Name</h3>
+        <span class="skill-card__count">@($"{Group.Items.Length:00}")</span>
+    </div>
+    <span class="info-card__sub">@Group.Caption</span>
+    <div class="badge-row">
+        @foreach (var item in Group.Items)
+        {
+            <TechBadge Text="@item" />
+        }
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public SkillGroup Group { get; set; } = default!;
+    [Parameter] public string Delay { get; set; } = "0";
+}

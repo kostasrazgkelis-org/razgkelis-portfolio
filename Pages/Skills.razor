@@ -1,0 +1,19 @@
+@page "/skills"
+
+<PageTitle>Skills — Konstantinos A. Razgkelis</PageTitle>
+
+<section class="section" style="padding-top:calc(var(--nav-h) + 4rem)">
+    <div class="container">
+        <SectionHeading Eyebrow="Tech stack" Title="Skills">
+            The languages, frameworks and tools I work with day to day — grouped by where they fit in the stack.
+        </SectionHeading>
+
+        <div class="grid grid-3">
+            @{ var i = 0; }
+            @foreach (var g in PortfolioData.SkillGroups)
+            {
+                <SkillGroupCard Group="g" Delay="@(((i++) % 3).ToString())" />
+            }
+        </div>
+    </div>
+</section>

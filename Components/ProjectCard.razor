@@ -1,0 +1,38 @@
+@inject NavigationManager Nav
+
+<article class="card project-card" data-reveal data-reveal-delay="@Delay"
+         @onclick="Open" role="link" tabindex="0"
+         @onkeydown="OnKey" aria-label="@Project.Title">
+    <div class="project-card__top">
+        <span class="project-card__index">@Index</span>
+        <span class="project-card__index">@Project.TeamSize</span>
+    </div>
+    <h3>@Project.Title</h3>
+    <div class="project-card__tag">@Project.Tagline</div>
+    <p>@Project.Problem</p>
+    <div class="badge-row" style="margin:.4rem 0 1rem">
+        @foreach (var t in Project.TechStack.Take(4))
+        {
+            <TechBadge Text="@t" />
+        }
+    </div>
+    <div class="project-card__foot">
+        <span class="project-card__index">@Project.Role</span>
+        <span class="project-card__arrow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public Project Project { get; set; } = default!;
+    [Parameter] public string Index { get; set; } = "";
+    [Parameter] public string Delay { get; set; } = "0";
+
+    private void Open() => Nav.NavigateTo($"projects/{Project.Slug}");
+
+    private void OnKey(KeyboardEventArgs e)
+    {
+        if (e.Key is "Enter" or " ") Open();
+    }
+}

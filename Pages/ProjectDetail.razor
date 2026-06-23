@@ -1,0 +1,114 @@
+@page "/projects/{Slug}"
+
+@if (_project is null)
+{
+    <PageTitle>Project not found</PageTitle>
+    <section class="section" style="padding-top:calc(var(--nav-h) + 5rem)">
+        <div class="container">
+            <span class="eyebrow">404</span>
+            <h2 style="margin:1rem 0">Project not found</h2>
+            <p class="lead">That project doesn't exist (or moved).</p>
+            <a class="btn btn--ghost" href="projects">Back to projects</a>
+        </div>
+    </section>
+}
+else
+{
+    <PageTitle>@_project.Title — Konstantinos A. Razgkelis</PageTitle>
+
+    <section class="project-hero">
+        <div class="container">
+            <a class="back-link" href="projects" data-reveal>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                All projects
+            </a>
+            <p class="index" style="margin:1.4rem 0 .6rem" data-reveal>@($"{_index:00}")  /  07</p>
+            <h1 data-reveal data-reveal-delay="1">@_project.Title</h1>
+            <p class="lead" style="margin-top:1rem;max-width:60ch" data-reveal data-reveal-delay="2">@_project.Tagline</p>
+
+            <div class="project-meta" data-reveal data-reveal-delay="3">
+                <div class="project-meta__item">
+                    <div class="k">Role</div>
+                    <div class="v">@_project.Role</div>
+                </div>
+                <div class="project-meta__item">
+                    <div class="k">Team</div>
+                    <div class="v">@_project.TeamSize</div>
+                </div>
+                <div class="project-meta__item">
+                    <div class="k">Company</div>
+                    <div class="v">@Site.Company</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-2" style="gap:3rem">
+                <div data-reveal>
+                    <span class="eyebrow">The problem</span>
+                    <p class="lead" style="margin-top:1rem">@_project.Problem</p>
+
+                    <span class="eyebrow" style="margin-top:2rem;display:inline-flex">What I did</span>
+                    <div class="prose" style="margin-top:1rem">
+                        @foreach (var para in _project.Narrative)
+                        {
+                            <p>@para</p>
+                        }
+                    </div>
+                </div>
+
+                <aside data-reveal data-reveal-delay="1">
+                    <div class="card">
+                        <span class="eyebrow">Tech stack</span>
+                        <div class="badge-row" style="margin-top:1rem">
+                            @foreach (var t in _project.TechStack)
+                            {
+                                <TechBadge Text="@t" />
+                            }
+                        </div>
+                    </div>
+
+                    @if (_next is not null)
+                    {
+                        <div class="card" style="margin-top:1.4rem;cursor:pointer" @onclick="GoNext">
+                            <span class="project-card__index">Next project</span>
+                            <h3 style="margin:.6rem 0 .2rem;color:var(--white)">@_next.Title</h3>
+                            <div class="project-card__tag">@_next.Tagline</div>
+                            <span class="project-card__arrow" style="display:inline-block;margin-top:.6rem">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                            </span>
+                        </div>
+                    }
+                </aside>
+            </div>
+        </div>
+    </section>
+}
+
+@code {
+    [Parameter] public string Slug { get; set; } = "";
+    [Inject] private NavigationManager Nav { get; set; } = default!;
+
+    private Project? _project;
+    private Project? _next;
+    private int _index;
+
+    protected override void OnParametersSet()
+    {
+        _project = PortfolioData.FindProject(Slug);
+        if (_project is not null)
+        {
+            _index = Array.IndexOf(PortfolioData.Projects, _project) + 1;
+            _next = PortfolioData.Projects[_index % PortfolioData.Projects.Length];
+        }
+    }
+
+    private void GoNext()
+    {
+        if (_next is not null) Nav.NavigateTo($"projects/{_next.Slug}");
+    }
+}

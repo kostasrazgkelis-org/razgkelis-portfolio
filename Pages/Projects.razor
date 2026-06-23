@@ -1,0 +1,21 @@
+@page "/projects"
+
+<PageTitle>Projects — Konstantinos A. Razgkelis</PageTitle>
+
+<section class="section" style="padding-top:calc(var(--nav-h) + 4rem)">
+    <div class="container">
+        <SectionHeading Eyebrow="Selected work" Title="Projects">
+            Seven projects across backend, mobile, frontend, test automation and AI — all delivered at @Site.Company.
+            Click any card for the full story.
+        </SectionHeading>
+
+        <div class="grid grid-3">
+            @{ var i = 1; }
+            @foreach (var p in PortfolioData.Projects)
+            {
+                <ProjectCard Project="p" Index="@($"{i:00}")" Delay="@(((i - 1) % 3).ToString())" />
+                i++;
+            }
+        </div>
+    </div>
+</section>
